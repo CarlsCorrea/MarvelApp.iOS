@@ -41,7 +41,7 @@ class CharactersListController: UICollectionViewController, UICollectionViewDele
         self.collectionView?.autoresizesSubviews = true;
         self.collectionView?.translatesAutoresizingMaskIntoConstraints = false;
         self.collectionView?.backgroundColor = .white
-        self.collectionView.register(UINib(nibName: "CharacterCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "CharacterCell")
+        self.collectionView.register(UINib(nibName: "CharacterCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: cellIdentifier)
         
         self.view.addSubview(activityView)
         self.activityView.hidesWhenStopped = true
@@ -94,7 +94,8 @@ extension CharactersListController {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width:(view.frame.width-30)/2, height: 150)
+        let width = (view.frame.width-30)/2
+        return CGSize(width:width, height: width) 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -114,12 +115,17 @@ extension CharactersListController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let filteredCharacter: Int
+        var filteredCharacter: Character?
         if isFiltered {
-            filteredCharacter = viewModel.filteredCharacter[indexPath.row].id
+            filteredCharacter = viewModel.filteredCharacter[indexPath.row]
         } else {
-            filteredCharacter = viewModel.characters[indexPath.row].id
+            filteredCharacter = viewModel.characters[indexPath.row]
         }
+        
+        let viewController = CharacterDetailViewController()
+        viewController.viewModel.character = filteredCharacter
+        self.navigationController?.pushViewController(viewController, animated: true)
+    
     }
 }
 

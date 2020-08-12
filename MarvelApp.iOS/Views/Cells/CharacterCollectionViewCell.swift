@@ -8,22 +8,57 @@
 
 import UIKit
 
-
-
 class CharacterCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var imageCharacter: UIImageView!
     @IBOutlet weak var labelName: UILabel!
+    @IBOutlet weak var imageFavorite: UIImageView!
+    var character:Character?
+    var favorite=false
+    var characterId=""
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
 
     func configureCell(character:Character){
+        
+        self.character = character
+        self.characterId = String(self.character!.id)
+        
+        self.favorite = UserDefaults.standard.bool(forKey: self.characterId)
+        
+        if (self.favorite) {
+            imageFavorite.image = UIImage(named: "favoriteTrue")
+        } else {
+            imageFavorite.image = UIImage(named: "favoriteFalse")
+        }
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        imageFavorite.isUserInteractionEnabled = true
+        imageFavorite.addGestureRecognizer(tapGestureRecognizer)
+        
         labelName.text = character.name
         imageCharacter.loadImageUsingCache(withUrl: character.thumbnail.url)
         imageCharacter.contentMode = .scaleToFill
         imageCharacter.makeRounded()
+    }
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+        
+        self.favorite = UserDefaults.standard.bool(forKey: self.characterId)
+        if (self.favorite) {
+            tappedImage.image = UIImage(named: "favoriteFalse")
+            UserDefaults.standard.set(false, forKey: self.characterId)
+            UserDefaults.standard.synchronize()
+        } else {
+            tappedImage.image = UIImage(named: "favoriteTrue")
+            UserDefaults.standard.set(true, forKey: self.characterId)
+            UserDefaults.standard.synchronize()
+        }
+        
     }
     
 }

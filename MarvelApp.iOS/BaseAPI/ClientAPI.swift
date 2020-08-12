@@ -10,7 +10,7 @@ import Foundation
 
 class ClientAPI {
     
-    func fetchData<T:Decodable>(urlString: String, completion: @escaping (T)->()) {
+    public func fetchData<T:Decodable>(urlString: String, completion: @escaping (T)->()) {
 
         guard let url = URL(string: urlString) else {
             return
@@ -32,4 +32,5 @@ class ClientAPI {
     }
     
 }
+
 

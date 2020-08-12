@@ -9,22 +9,14 @@
 import Foundation
 
 class CharactersListService{
-    
-    private let basePath = "https://gateway.marvel.com:443/v1/public/"
-    private let publicKey = "3574c5db9f35c66a7a92a436d0b481a0"
-    private let privateKey = "a4af2bd95474b9c8c11dbe7a6f5a635e67522590"
     private let clientApi: ClientAPI
+    private let settings: SettingsAPI
     private let itemsPerPage = 20
     var page: Int = 0
- 
-    init(clientApi: ClientAPI=ClientAPI()) {
+
+    init(clientApi: ClientAPI=ClientAPI(), settings: SettingsAPI=SettingsAPI()) {
         self.clientApi = clientApi
-    }
-    
-    private func getCredentials() -> String {
-        let ts = String(Date().timeIntervalSince1970)
-        let hash = ts+privateKey+publicKey
-        return "ts=\(ts)&apikey=\(publicKey)&hash=\(hash.md5)"
+        self.settings = settings
     }
     
     func getCharacters(characterName:String?, completionHandler: @escaping (CharacterDataWrapper?) -> Void) {
@@ -37,7 +29,7 @@ class CharactersListService{
             parameters = "characters?" + "offset=\(offset)&limit=\(itemsPerPage)&"
         }
         
-        let url = basePath + parameters + getCredentials()
+        let url = settings.basePath + parameters + settings.getCredentials()
         
         clientApi.fetchData(urlString: url) { (value: CharacterDataWrapper) in
             completionHandler(value)

@@ -13,6 +13,7 @@ struct Character: Decodable{
     var name: String
     var description: String
     var thumbnail: Thumbnail
+    var favorite: Bool=false
     
     enum CodingKeys: String, CodingKey {
         case id

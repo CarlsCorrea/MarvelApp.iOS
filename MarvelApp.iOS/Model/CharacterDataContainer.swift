@@ -23,17 +23,6 @@ struct CharacterDataContainer: Decodable {
         self.results = results
     }
     
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let offset: Int = try container.decode(Int.self, forKey: .offset)
-        let limit: Int = try container.decode(Int.self, forKey: .limit)
-        let total: Int = try container.decode(Int.self, forKey: .total)
-        let count: Int = try container.decode(Int.self, forKey: .count)
-        let results: [Character] = try container.decode([Character].self, forKey: .results)
-        
-        self.init(offset: offset, limit: limit, total: total, count: count, results: results)
-    }
-    
     enum CodingKeys: String, CodingKey {
         case offset
         case limit

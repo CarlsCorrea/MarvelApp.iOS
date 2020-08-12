@@ -23,7 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let charactersListNavController = UINavigationController(rootViewController: CharactersListController(collectionViewLayout: layout))
         window?.rootViewController = charactersListNavController
         
-        
         window?.makeKeyAndVisible()
     }
 

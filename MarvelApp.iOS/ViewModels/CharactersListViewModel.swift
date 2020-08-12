@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CharactersListViewModelDelegate {
+protocol CharactersListViewModelDelegate: class {
     func charactersLoaded()
 }
 
@@ -18,7 +18,7 @@ class CharactersListViewModel {
     var total = 0
     var loadingCharacters = false
     let service: CharactersListService
-    var delegate: CharactersListViewModelDelegate?
+    weak var delegate: CharactersListViewModelDelegate?
     var filteredCharacter: [Character] = []
     
     init(service: CharactersListService = CharactersListService()) {
@@ -27,10 +27,9 @@ class CharactersListViewModel {
 
     func loadCharacters(searchCharacters: String?) {
         loadingCharacters = true
-        service.page = currentPage
+        service.page += currentPage
         service.getCharacters(characterName: searchCharacters) { (characters) in
             if let characters = characters {
-                
                 if searchCharacters == nil {
                     self.characters += characters.data.results
                     self.total = characters.data.total
@@ -40,7 +39,6 @@ class CharactersListViewModel {
                     self.total = characters.data.total
                     self.delegate?.charactersLoaded()
                 }
-
             }
         }
         
