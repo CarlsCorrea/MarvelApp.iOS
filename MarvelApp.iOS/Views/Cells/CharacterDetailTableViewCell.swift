@@ -12,8 +12,10 @@ class CharacterDetailTableViewCell: UITableViewCell, ComicViewModelDelegate {
 
     func comicLoaded() {
         DispatchQueue.main.async {
-            if (self.labelDescription.text!.isEmpty) {
-                self.labelDescription.text = self.comicViewModel.comic?.description
+            if let labelDesc = self.labelDescription.text {
+                if (labelDesc.isEmpty) {
+                    self.labelDescription.text = self.comicViewModel.comic?.description
+                }
             }
         }
     }
@@ -34,17 +36,6 @@ class CharacterDetailTableViewCell: UITableViewCell, ComicViewModelDelegate {
 
         if (self.labelDescription.text == "") {
             self.comicViewModel.loadComicInfo()
-        }
-        labelName.text = element.name
-    }
-    
-    func configureCell(element:Story){
-        
-        self.comicViewModel.delegate = self
-        self.comicViewModel.comicUrl = element.resourceURI
-        
-        if (self.labelDescription.text == "") {
-            self.comicViewModel.loadStoryInfo()
         }
         labelName.text = element.name
     }

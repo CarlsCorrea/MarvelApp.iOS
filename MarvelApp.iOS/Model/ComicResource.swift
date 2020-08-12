@@ -22,11 +22,4 @@ struct ComicResource: Decodable {
         self.name = name
     }
     
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let resourceURI: String = try container.decode(String.self, forKey: .resourceURI)
-        let name: String = try container.decode(String.self, forKey: .name)
-        self.init(resourceURI: resourceURI, name: name)
-    }
-    
 }

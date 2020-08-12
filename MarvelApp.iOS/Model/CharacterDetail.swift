@@ -15,9 +15,7 @@ struct CharacterDetail: Decodable {
     let modified: Date
     let thumbnail: Thumbnail
     let resourceURI: String
-    let comics, series: Comics
-    let stories: Stories
-    let events: Comics
+    let comics, series, stories, events: Comics
     let urls: [URLObject]
     
     enum CodingKeys: String, CodingKey  {
@@ -25,7 +23,7 @@ struct CharacterDetail: Decodable {
         case modified, thumbnail, resourceURI, comics, series, stories, events, urls
     }
     
-    init(id: Int, name: String, description: String, modified: Date, thumbnail: Thumbnail, resourceURI: String, comics: Comics, series: Comics, stories: Stories, events: Comics, urls: [URLObject]) {
+    init(id: Int, name: String, description: String, modified: Date, thumbnail: Thumbnail, resourceURI: String, comics: Comics, series: Comics, stories: Comics, events: Comics, urls: [URLObject]) {
         self.id = id
         self.name = name
         self.modified = modified
@@ -45,15 +43,14 @@ struct CharacterDetail: Decodable {
         let name: String = try container.decode(String.self, forKey: .name)
         let description: String = try container.decode(String.self, forKey: .description)
         let strModified: String = try container.decode(String.self, forKey: .modified)
-        
+
         let thumbnail: Thumbnail = try container.decode(Thumbnail.self, forKey: .thumbnail)
         let resourceURI: String = try container.decode(String.self, forKey: .resourceURI)
         let comics: Comics = try container.decode(Comics.self, forKey: .comics)
         let series: Comics = try container.decode(Comics.self, forKey: .series)
-        let stories: Stories = try container.decode(Stories.self, forKey: .stories)
         let events: Comics = try container.decode(Comics.self, forKey: .events)
         let urls: [URLObject] = try container.decode([URLObject].self, forKey: .urls)
-        
+
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -68,7 +65,7 @@ struct CharacterDetail: Decodable {
             resourceURI: resourceURI,
             comics: comics,
             series : series,
-            stories: stories,
+            stories: comics,
             events: events,
             urls: urls
         )

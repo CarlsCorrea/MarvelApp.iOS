@@ -28,14 +28,14 @@ struct Stories: Decodable {
         self.returned = returned
     }
     
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let available: Int = try container.decode(Int.self, forKey: .available)
-        let collectionURI: String = try container.decode(String.self, forKey: .collectionURI)
-        let items: [Story] = try container.decode([Story].self, forKey: .items)
-        let returned: Int = try container.decode(Int.self, forKey: .returned)
-
-        self.init(available: available, collectionURI: collectionURI, items: items, returned: returned)
-    }
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        let available: Int = try container.decode(Int.self, forKey: .available)
+//        let collectionURI: String = try container.decode(String.self, forKey: .collectionURI)
+//        let items: [Story] = try container.decode([Story].self, forKey: .items)
+//        let returned: Int = try container.decode(Int.self, forKey: .returned)
+//
+//        self.init(available: available, collectionURI: collectionURI, items: items, returned: returned)
+//    }
     
 }
